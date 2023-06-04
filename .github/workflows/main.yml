@@ -1,0 +1,29 @@
+name: continous integration
+
+on:
+  push:
+    branches: [main]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: set up python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.9
+          
+      - name: install dependencies
+        run: make setup
+        
+      - name: lint
+        run: make lint
+      
+      - name: format
+        run: make format
+      
+      - name: test
+        run: make test
+      
