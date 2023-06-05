@@ -10,5 +10,6 @@ setup(
     install_requires=requirements, 
     entry_points="""[console_scripts]
     classifier=main:main""",
-    author="Diarra Bell"
+    author="Diarra Bell",
+    url="https://github.com/diarrabell/emotion-classifier"
 )

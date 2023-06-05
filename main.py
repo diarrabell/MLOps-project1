@@ -1,17 +1,35 @@
 """
-This file contains the main function for the code.
-It uses the Emotion English DistilRoBERTa-base mode, which classifies text into one of 6 different emotions.
+This is the main file that should be used to run the code. It uses the click library to create a CLI tool.
 """
-from transformers import pipeline
 
-def main():
-    #download sentiment analysis model
-    classifier = pipeline("text-classification", model="j-hartmann/emotion-english-distilroberta-base", return_all_scores=True)
+import click
 
-    #ask user to enter test data and return results
-    text = input("Enter text here: ")
-    results = classifier(text)
-    print(results)
+from library.model import classify
+
+@click.command()
+@click.option('--text', help='text to be classified')
+
+def main(text):
+    #get predictions from model
+    results = classify(text)
+    labels = []
+    scores = []
+    click.echo("Results: ")
+
+    #display results
+    for result in results[0]:
+        label = result.get("label")
+        score = result.get("score")
+        labels.append(label)
+        scores.append(score)
+        click.echo(click.style(f"{label}: {score}"))
+
+    #find top result
+    max_score = round(max(scores), 2) * 100
+    top_emotion_index = scores.index(max(scores))
+    top_emotion = labels[top_emotion_index].upper()
+    click.echo(click.style(f"The top prediction is {top_emotion} with score of {max_score}%."))
+
 
 if __name__ == "__main__":
     main()
