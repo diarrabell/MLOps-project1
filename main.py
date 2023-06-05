@@ -9,7 +9,7 @@ from library.model import classify
 @click.command()
 @click.option('--text', help='text to be classified')
 
-def main(text):
+def main(text): # pylint: disable=no-value-for-parameter
     #get predictions from model
     results = classify(text)
     labels = []
@@ -32,4 +32,4 @@ def main(text):
 
 
 if __name__ == "__main__":
-    main()
+    main() # pylint: disable=no-value-for-parameter
